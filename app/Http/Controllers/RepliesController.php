@@ -25,7 +25,7 @@ class RepliesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {      
         //
     }
 
@@ -41,7 +41,10 @@ class RepliesController extends Controller
             'discussion_id' => $discussion->id,
             'content' => $request->content
         ]);
-        $discussion->user->notify(new NewReplyAdded($discussion));
+        if($discussion->user->id !== auth()->user()->id) {
+            $discussion->user->notify(new NewReplyAdded($discussion));
+        }
+
         session()->flash('success', 'Reply Added');
         return redirect()->back();
     }

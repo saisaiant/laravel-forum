@@ -32,15 +32,20 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @auth
+                            <li class="nav-item">
+                                <a href="{{ route('users.notifications') }}" class="nav-link">
+                                    <span class="badge badge-info text-white">
+                                        {{ auth()->user()->unreadNotifications->count() }}
+                                        Unread Notifications
+                                    </span>
+                                </a>
+                            </li>
+                        @endauth
                         <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <span class="badge badge-info text-white">
-                                    {{ auth()->user()->unreadNotifications->count() }}
-                                    Unread Notifications
-                                </span>
+                            <a href="{{ route('discussions.index') }}" class="nav-link">
+                                Discussion
                             </a>
                         </li>
-                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -100,7 +105,9 @@
                             <ul class="list-group">
                                 @foreach ($channels as $channel)
                                     <li class="list-group-item">
-                                        {{ $channel->name }}
+                                        <a href="{{ route('discussions.index') }}?channel={{ $channel->slug }}">
+                                            {{ $channel->name }}
+                                        </a>
                                     </li>
                                 @endforeach
                             </ul>
